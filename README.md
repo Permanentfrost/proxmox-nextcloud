@@ -26,7 +26,9 @@ Network: bridge the VM NIC to your LAN (so it gets a `192.168.1.x` address).
 
 ---
 
-## 1) Install Docker CE + Compose (official apt repo)
+## 1) Install Docker CE + Compose (official apt repo) 
+
+Source: https://docs.docker.com/engine/install/ubuntu/
 
 ```bash
 sudo apt-get update
