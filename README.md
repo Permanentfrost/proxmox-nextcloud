@@ -340,7 +340,7 @@ Terminate TLS at your proxy, forward to the app, set the same `overwrite*` and `
 
 ---
 
-## 14) Appendix: Handy commands
+## 14) Appendix: Handy commands & afterthoughs
 
 ```bash
 # Start/stop/recreate
@@ -368,5 +368,44 @@ df -h /srv/nextcloud-data
 ```
 
 ---
+
+Also do not forget that you’re good to close that SSH session you set up initially: 
+```
+docker compose up -d started the containers detached (in the background).
+docker compose logs -f app is just a live tail. Hitting Ctrl+C stops the log stream but does not stop the containers.
+
+Exiting SSH won’t stop anything; Docker keeps running.
+Day-to-day basics
+
+# See stack status
+cd /opt/nextcloud
+docker compose ps
+
+# Follow logs when you want, then Ctrl+C to exit
+docker compose logs -f app
+docker compose logs -f db
+docker compose logs --since 10m -f
+
+# Start / stop / restart the stack
+docker compose stop
+docker compose start
+docker compose restart
+
+# Fully stop & remove containers (volumes persist)
+docker compose down
+
+```
+Potential questions is --> After reboot — will it auto-start?
+Answer here is Yes! because the compose has restart: unless-stopped. As long as the Docker service starts at boot (it does by default), the containers will come back up automatically unless you previously stopped them. You can verify/ensure:
+
+```
+# Docker enabled on boot?
+systemctl is-enabled docker
+# enable if needed
+sudo systemctl enable docker
+If you manually stop the containers (docker compose stop), unless-stopped remembers that state and won’t auto-start them on reboot. That’s intentional.
+```
+
+
 
 DONE :) Enjoy
